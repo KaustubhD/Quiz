@@ -107,6 +107,7 @@ $main-light: #a5d6a7
           position: relative
           height: 100%
           width: 100%
+          text-align: center
         
           .q
             display: flex
@@ -152,7 +153,7 @@ $main-light: #a5d6a7
             grid-row: #{($i)} / #{($i + 1)}
 
             .move
-              transition-delay: 100ms * $i
+              transition-delay: 70ms * $i
             
         
 
@@ -167,7 +168,7 @@ $main-light: #a5d6a7
           // -webkit-animation: animation 1000ms linear
           // animation: animation 1000ms linear
           // animation-play-state: paused
-          transition: all 200ms
+          transition: all 100ms
           opacity: 0
           // z-index: 15
 
@@ -191,11 +192,11 @@ $main-light: #a5d6a7
           &.select
             circle
               stroke-dashoffset: 0
-              animation: circle 800ms ease-in-out forwards
+              animation: circle 600ms ease-in-out forwards
 
 
     .move
-      transition-duration: 800ms !important
+      transition-duration: 600ms !important
       transition-timing-function: ease-in-out !important
       &.left
         transform: translate3d(-140%, 0, 0) !important
@@ -213,4 +214,60 @@ $main-light: #a5d6a7
 // .on-left
 //   transform: translateX(-140%)
 //   transition: 0
+
+@media screen and (max-width: 425px)
+  .container
+    main
+      .prev-but, .next-but
+        // display: none
+
+        svg
+          height: 70px
+          width: 70px
+
+      .content-wrap
+        grid-template-rows: minmax(80px, 1.5fr) minmax(70px, 1fr) minmax(70px, 1fr) minmax(70px, 1fr) minmax(70px, 1fr)
+        padding: 0
+
+        .q-wrap
+          width: 100%
+
+          .q
+            left: 0
+
+            .q-h
+              font-size: 1.02em
+              width: 100%
+              margin:
+                top: 0.5em
+                left: 0
+                right: 0
+                bottom: 0.5em
+            
+          .false-wrap
+            div
+              position: absolute
+              height: 100%
+              width: 50%
+            
+            .new-prev-but
+              left: 0
+            .new-next-but
+              right: 0
+              
+
+
+        .a-wrap
+          width: 80%
+          .a
+            left: 0
+            font-size: 0.9em
+
+            .a-h
+              text-align: left
+
+            .a-icon
+              height: 30px
+              width: 30px
+
   

@@ -50,11 +50,21 @@ $(window).on('load', function(){
   // Click handlers on left right buttons
   $('.prev-but>svg').on('click', prev);
   $('.next-but>svg').on('click', next);
+  $('.q').on('swipeleft', function(e){
+    e.preventDefault();
+    prev();
+  }).on('swiperight', function(e){
+    e.preventDefault();
+    next();
+  });
+  // $('.new-next-but').on('click', function(){console.log("Clicked");});
 
   function init(){
+    console.log("Init Called");
     let ans = $('.a-wrap .a, .q-wrap>.false-wrap .q'),
     ay = ans.filter('.visible'), an = ans.filter(':not(.visible)');
     $('.prev-but>svg').addClass('disabled');
+    // console.log($('.prev-but>svg'));
     $(ay).find('.q-h').text(json["q"][curind]);
     for(let i = 1; i <= 4; i++){
       $(ay[i]).find('.a-h').text(json["a"][curind - 1][`${i}`]);
@@ -64,9 +74,11 @@ $(window).on('load', function(){
   }
   
   function prev(){
-    if(!anim){
-      anim = true;
-      if(!$('.prev-but>svg').hasClass('disabled')){
+    console.log(curind);
+    // e.preventDefault();
+    if(!$('.prev-but>svg').hasClass('disabled') || curind != 1){
+      if(!anim){
+        anim = true;
         --curind;
         let ans = $('.a-wrap .a, .q-wrap>.false-wrap .q'),
         ay = ans.filter('.visible'), an = ans.filter(':not(.visible)');
@@ -76,6 +88,8 @@ $(window).on('load', function(){
         }
         $('.next-but>svg').removeClass('disabled');
         $(an).find('.q-h').text(json["q"][curind]);
+        console.log(curind-1);
+        console.log(json["a"]);
         for(let i = 1; i <= 4; i++){
           $(an[i]).find('.a-h').text(json["a"][curind - 1][`${i}`]);
         }
@@ -92,9 +106,11 @@ $(window).on('load', function(){
 
 
   function next(){
-    if(!anim){
-      anim = true;
-      if(!$('.next-but>svg').hasClass('disabled')){
+    // e.preventDefault();
+    console.log(curind + "   " + len);
+    if(!$('.next-but>svg').hasClass('disabled') || curind != len){
+      if(!anim){
+        anim = true;
         ++curind;
         let ans = $('.a-wrap .a, .q-wrap>.false-wrap .q'),
         ay = ans.filter('.visible'), an = ans.filter(':not(.visible)');
@@ -113,6 +129,7 @@ $(window).on('load', function(){
         }, 200);
         $(ay).addClass('move').removeClass('visible').css({'transform': 'translate3d(140%, 0, 0)'}).on('transitionend', function(){
           $(ay).removeClass('move'); anim = false;});
+      
       }
     }
     checkOver();
