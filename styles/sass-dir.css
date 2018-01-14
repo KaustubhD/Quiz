@@ -360,6 +360,9 @@ html .container.over, body .container.over {
 }
 
 @media screen and (max-width: 425px) {
+  .container main .prev-but, .container main .next-but {
+    display: none;
+  }
   .container main .prev-but svg, .container main .next-but svg {
     height: 70px;
     width: 70px;
@@ -369,7 +372,7 @@ html .container.over, body .container.over {
     padding: 0;
   }
   .container main .content-wrap .q-wrap {
-    width: 100%;
+    width: 90%;
   }
   .container main .content-wrap .q-wrap .q {
     left: 0;
@@ -398,7 +401,7 @@ html .container.over, body .container.over {
   }
   .container main .content-wrap .a-wrap .a {
     left: 0;
-    font-size: 0.9em;
+    font-size: 0.93em;
   }
   .container main .content-wrap .a-wrap .a .a-h {
     text-align: left;
@@ -424,14 +427,18 @@ html .container.over, body .container.over {
   max-width: 300px;
   box-shadow: 10px 15px 20px 1px rgba(0, 0, 0, 0.3);
   background-color: #00944f;
+  color: #013925;
   opacity: 0;
   transition: all 300ms ease;
   border-radius: 6px;
   align-content: center;
 }
 .modal-ans.visible {
-  display: grid;
+  display: block;
   opacity: 1;
+}
+.modal-ans.visible.grid {
+  display: grid;
   grid-gap: 8px;
 }
 

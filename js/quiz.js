@@ -1,11 +1,21 @@
 $(window).on('load', function(){
   $('.container').addClass('ready');
 
-  let json = JSON.parse(jso), curind = 1, len = json["count"], ans = new Object(), anim = false;
+  let json = JSON.parse(jso), curind = 1, len = json["count"], ans = new Object(), anim = false, viewwidth = 0;
 
   //Slide up the overlay and remove it
   setTimeout(function(){
-    $('.overlay').addClass('slide-up').on('transitionend', function(){ $('.overlay').remove();});
+    $('.overlay').addClass('slide-up').on('transitionend', function(){
+      $('.overlay').remove();
+      $('.container').addClass('over');
+      $('.modal-ans').text(`Swipe over the question to move around`).addClass('visible');
+      setTimeout(function(){
+        $('.container').removeClass('over');
+        $('.modal-ans').removeClass('visible').text('');
+
+      }, 2500);
+
+    });
   }, 1500);
 
 
@@ -50,13 +60,13 @@ $(window).on('load', function(){
   // Click handlers on left right buttons
   $('.prev-but>svg').on('click', prev);
   $('.next-but>svg').on('click', next);
-  $('.q').on('swipeleft', function(e){
-    e.preventDefault();
-    prev();
-  }).on('swiperight', function(e){
-    e.preventDefault();
-    next();
-  });
+  // $('.q').on('swipeleft', function(e){
+  //   e.preventDefault();
+  //     prev();
+  // }).on('swiperight', function(e){
+  //   e.preventDefault();
+  //     next();
+  // });
   // $('.new-next-but').on('click', function(){console.log("Clicked");});
 
   function init(){
@@ -76,30 +86,30 @@ $(window).on('load', function(){
   function prev(){
     console.log(curind);
     // e.preventDefault();
-    if(!$('.prev-but>svg').hasClass('disabled') || curind != 1){
+    if(!$('.prev-but>svg').hasClass('disabled')){
       if(!anim){
         anim = true;
-        --curind;
-        let ans = $('.a-wrap .a, .q-wrap>.false-wrap .q'),
-        ay = ans.filter('.visible'), an = ans.filter(':not(.visible)');
-        checkSelectedState(an);
-        if(curind == 1){
-          $('.prev-but>svg').addClass('disabled');
-        }
-        $('.next-but>svg').removeClass('disabled');
-        $(an).find('.q-h').text(json["q"][curind]);
-        console.log(curind-1);
-        console.log(json["a"]);
-        for(let i = 1; i <= 4; i++){
-          $(an[i]).find('.a-h').text(json["a"][curind - 1][`${i}`]);
-        }
-        $(an).css({'transform': 'translate3d(140%, 0, 0)'});
-        setTimeout(function(){
-          $(an).addClass('move visible').css({'transform': 'translate3d(0%, 0, 0)'}).on('transitionend', function(){ $(an).removeClass('move')});
-        }, 200);
-        $(ay).addClass('move').removeClass('visible').css({'transform': 'translate3d(-140%, 0, 0)'}).on('transitionend', function(){
-          $(ay).removeClass('move'); anim = false;});
       }
+      --curind;
+      let ans = $('.a-wrap .a, .q-wrap>.false-wrap .q'),
+      ay = ans.filter('.visible'), an = ans.filter(':not(.visible)');
+      checkSelectedState(an);
+      if(curind == 1){
+        $('.prev-but>svg').addClass('disabled');
+      }
+      $('.next-but>svg').removeClass('disabled');
+      $(an).find('.q-h').text(json["q"][curind]);
+      console.log(curind-1);
+      console.log(json["a"]);
+      for(let i = 1; i <= 4; i++){
+        $(an[i]).find('.a-h').text(json["a"][curind - 1][`${i}`]);
+      }
+      $(an).css({'transform': 'translate3d(140%, 0, 0)'});
+      setTimeout(function(){
+        $(an).addClass('move visible').css({'transform': 'translate3d(0%, 0, 0)'}).on('transitionend', function(){ $(an).removeClass('move')});
+      }, 200);
+      $(ay).addClass('move').removeClass('visible').css({'transform': 'translate3d(-140%, 0, 0)'}).on('transitionend', function(){
+        $(ay).removeClass('move'); anim = false;});
     }
     checkOver();
   }
@@ -108,29 +118,30 @@ $(window).on('load', function(){
   function next(){
     // e.preventDefault();
     console.log(curind + "   " + len);
-    if(!$('.next-but>svg').hasClass('disabled') || curind != len){
+    
+    if(!$('.next-but>svg').hasClass('disabled')){
       if(!anim){
         anim = true;
-        ++curind;
-        let ans = $('.a-wrap .a, .q-wrap>.false-wrap .q'),
-        ay = ans.filter('.visible'), an = ans.filter(':not(.visible)');
-        checkSelectedState(an);
-        if(curind == len){
-          $('.next-but>svg').addClass('disabled');
-        }
-        $('.prev-but>svg').removeClass('disabled');
-        $(an).find('.q-h').text(json["q"][curind]);
-        for(let i = 1; i <= 4; i++){
-          $(an[i]).find('.a-h').text(json["a"][curind - 1][`${i}`]);
-        }
-        $(an).css({'transform': 'translate3d(-140%, 0, 0)'});
-        setTimeout(function(){
-          $(an).addClass('move visible').css({'transform': 'translate3d(0%, 0, 0)'}).on('transitionend', function(){ $(an).removeClass('move')});
-        }, 200);
-        $(ay).addClass('move').removeClass('visible').css({'transform': 'translate3d(140%, 0, 0)'}).on('transitionend', function(){
-          $(ay).removeClass('move'); anim = false;});
-      
       }
+      ++curind;
+      let ans = $('.a-wrap .a, .q-wrap>.false-wrap .q'),
+      ay = ans.filter('.visible'), an = ans.filter(':not(.visible)');
+      checkSelectedState(an);
+      if(curind == len){
+        $('.next-but>svg').addClass('disabled');
+      }
+      $('.prev-but>svg').removeClass('disabled');
+      $(an).find('.q-h').text(json["q"][curind]);
+      for(let i = 1; i <= 4; i++){
+        $(an[i]).find('.a-h').text(json["a"][curind - 1][`${i}`]);
+      }
+      $(an).css({'transform': 'translate3d(-140%, 0, 0)'});
+      setTimeout(function(){
+        $(an).addClass('move visible').css({'transform': 'translate3d(0%, 0, 0)'}).on('transitionend', function(){ $(an).removeClass('move')});
+      }, 200);
+      $(ay).addClass('move').removeClass('visible').css({'transform': 'translate3d(140%, 0, 0)'}).on('transitionend', function(){
+        $(ay).removeClass('move'); anim = false;});
+      
     }
     checkOver();
   }
@@ -159,17 +170,28 @@ $(window).on('load', function(){
     for(let i = 0; i < len; i++){
       modal.append(`<div class="ans-in-modal">${i + 1} : ${ans[i + 1][1]}</div>`);
     }
-    $('.modal-ans').addClass('visible');
+    $('.modal-ans').addClass('visible grid');
   }
 
 
   function size(){
+    console.log('Size called');
     let h = $(window).height(), w = $('main').outerWidth();
+    viewwidth = $(window).width();
     $('svg.svg-visible').attr('height', `${h * 0.2}px`).attr('width', `${w}px`);
     $('.heading-wrap').css('height', `${h * 0.2}px`);
     $('line').attr('x1', `${h * 0.15}px`).attr('y2', `${h * 0.15}px`);
     $('#h-back path').attr('d', `M${(h * 0.15)} 20 L${w} 20 L${w} ${h * 0.2 * 0.8} L${(20)} ${h * 0.2 * 0.8} Z`);
     $('.content-wrap').css('height', `${h * 0.7}px`);
+    if(viewwidth <= 425){
+      $('.q').on('swipeleft', function(e){
+        e.preventDefault();
+          prev();
+      }).on('swiperight', function(e){
+        e.preventDefault();
+          next();
+      });
+    }
   }
 
 
