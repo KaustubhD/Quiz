@@ -2,4 +2,4 @@
 
 ### A simple quiz
 
-[Check it](https://kayd33.github.io/Quiz/)
+[Check it](https://kaydee.github.io/Quiz/)
